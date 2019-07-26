@@ -43,6 +43,18 @@ UICollectionViewDelegateFlowLayout
 	//添加拖移手勢
 	UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
 	[self.mainCollectionView addGestureRecognizer:panGesture];
+	
+	//	//添加左滑手勢
+	//	UISwipeGestureRecognizer *recognizerLeft = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
+	//	[recognizerLeft setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+	//	recognizerLeft.delegate = self;
+	//	[self.mainCollectionView addGestureRecognizer:recognizerLeft];
+	//
+	//	//添加右滑手勢
+	//	UISwipeGestureRecognizer *recognizerRight = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
+	//	[recognizerRight setDirection:(UISwipeGestureRecognizerDirectionRight)];
+	//	recognizerRight.delegate = self;
+	//	[self.mainCollectionView addGestureRecognizer:recognizerRight];
 }
 
 #pragma mark - UICollectionViewDelegate
@@ -98,7 +110,7 @@ UICollectionViewDelegateFlowLayout
 #pragma mark UISwipeGestureRecognizer
 - (void)handleGesture:(UIPanGestureRecognizer *)gesture {
 	CGPoint point = [gesture translationInView:self.mainCollectionView];
-	
+
 	if (gesture.state == UIGestureRecognizerStateEnded) {
 		if(point.x < 0) {
 			//向左滑＋＋
@@ -116,9 +128,9 @@ UICollectionViewDelegateFlowLayout
 					self.currentPage = self.currentPage + 1;
 				}
 			}
-			
+
 			NSLog(@"swipe left");
-			
+
 		}
 		if(point.x > 0) {
 			//向右滑－－
@@ -136,14 +148,45 @@ UICollectionViewDelegateFlowLayout
 				}
 			}
 			NSLog(@"swipe right");
-			
+
 		}
-		
+
 		NSLog(@"滑到第%d頁了",(int)self.currentPage);
-		
+
 		[self.mainCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:true];
 	}
-	
+
 }
+
+
+//-(void)handleSwipeFrom:(UISwipeGestureRecognizer *)recognizer{
+//	if(recognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
+//		//向左滑＋＋
+//		int arrayCount = kArrayCount;
+//		if (self.currentPage < arrayCount - 1) {
+//		self.currentPage = self.currentPage + 1;
+//		}
+//		NSLog(@"swipe left");
+//
+//	}
+//	if(recognizer.direction == UISwipeGestureRecognizerDirectionRight) {
+//		//向右滑－－
+//		self.currentPage = self.currentPage - 1;
+//		if (self.currentPage < 0) {
+//			self.currentPage = 0;
+//		}
+//		NSLog(@"swipe right");
+//
+//	}
+//
+//	NSLog(@"滑到第%d頁了",(int)self.currentPage);
+//
+//	[self.mainCollectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:true];
+//}
+//
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+//	//使用UISwipeGestureRecognizer設為true
+//	return true;
+//}
 
 @end
